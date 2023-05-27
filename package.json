@@ -9,8 +9,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "set NODE_ENV=Production&& node server.js",
-    "dev": "set NODE_ENV=Developement&& nodemon server.js"
+    "start": "set NODE_ENV=Production&& node index.js",
+    "dev": "set NODE_ENV=Developement&& nodemon index.js"
   },
   "author": "",
   "license": "ISC",
