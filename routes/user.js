@@ -3,8 +3,10 @@ import {
   allUser,
   getMyProfile,
   loginUser,
+  logout,
   registerUser,
 } from "../controllers/user.js";
+import { isAuthenticated } from "../middlewares/auth.js";
 
 const userRouter = express.Router();
 
@@ -14,8 +16,8 @@ userRouter.post("/new", registerUser);
 
 userRouter.post("/login", loginUser);
 
-// userRouter.route("/userId/:id").get(getUserDetails);
+userRouter.get("/logout", logout);
 
-userRouter.get("/me", getMyProfile);
+userRouter.get("/me", isAuthenticated, getMyProfile);
 
 export default userRouter;

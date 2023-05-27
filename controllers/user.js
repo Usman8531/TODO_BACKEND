@@ -1,6 +1,5 @@
 import { userModel } from "../models/User.js";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 import { setCookies } from "../utils/feature.js";
 
 export const allUser = async (req, res) => {
@@ -12,37 +11,28 @@ export const allUser = async (req, res) => {
   });
 };
 
-export const loginUser = async (req, res) => {
+export const loginUser = async (req, res, next) => {
   const { email, password } = req.body;
   const user = await userModel.findOne({ email }).select("+password");
   if (!user) {
-    return res.json({
-      success: false,
-      message: "Invalid Email or password",
-    });
+    return next(new Error("Register First"));
   }
 
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
-    return res.json({
-      success: false,
-      message: "Invalid Email or password",
-    });
+    return next(new Error("Invalid Email or Password"));
   }
 
   setCookies(user, res, "welcome back", 201);
 };
 
-export const registerUser = async (req, res) => {
+export const registerUser = async (req, res, next) => {
   const { name, email, password } = req.body;
 
   let user = await userModel.findOne({ email });
 
   if (user) {
-    return res.status(404).json({
-      success: false,
-      message: "User Already Exist",
-    });
+    return next(new Error("User Already Exists"));
   }
 
   const hashPassword = await bcrypt.hash(password, 10);
@@ -56,21 +46,22 @@ export const registerUser = async (req, res) => {
 };
 
 export const getMyProfile = async (req, res) => {
-  const { token } = req.cookies;
-
-  if (!token) {
-    return res.json({
-      success: false,
-      message: "Please login to get your profile",
-    });
-  }
-
-  const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-  const user = await userModel.findById(decoded._id);
-
   res.status(200).json({
     success: true,
-    user,
+    user: req.user,
   });
+};
+
+export const logout = (req, res) => {
+  res
+    .status(200)
+    .cookie("token", "", {
+      expires: new Date(Date.now()),
+      sameSite: process.env.NODE_ENV === "Developement" ? "lax" : "none",
+      secure: process.env.NODE_ENV === "Developement" ? false : true,
+    })
+    .json({
+      success: true,
+      user: req.user,
+    });
 };

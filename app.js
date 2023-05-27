@@ -6,13 +6,27 @@ import cors from "cors";
 import todoRoutes from "./routes/todo.js";
 import userRouter from "./routes/user.js";
 import cookieParser from "cookie-parser";
+import { errorMiddleWare } from "./middlewares/error.js";
 export const app = express();
-// middleware
+
+//using middleware
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+  })
+);
 app.use(cookieParser());
-app.use(todoRoutes);
+
+// using routes
 app.use("/api/v1/users", userRouter);
+
+app.use("/api/v1/todo", todoRoutes);
+
+// dotenv
 config({
   path: "./data/config.env",
 });
+
+// using error middleWare
+app.use(errorMiddleWare);

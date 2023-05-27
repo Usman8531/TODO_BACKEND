@@ -2,17 +2,21 @@ import express from "express";
 import {
   createTodo,
   deleteTodo,
+  myTodo,
   readTodo,
   updateTodo,
 } from "../controllers/todo.js";
+import { isAuthenticated } from "../middlewares/auth.js";
 
 const router = express.Router();
 
-router.post("/createTodo", createTodo);
+router.post("/create", isAuthenticated, createTodo);
 
-router.get("/readTodos", readTodo);
+router.get("/my", isAuthenticated, myTodo);
 
-router.post("/updateTodo/:id", updateTodo);
+router.get("/read", readTodo);
 
-router.delete("/deleteTodo/:id", deleteTodo);
+router.post("/update/:id", isAuthenticated, updateTodo);
+
+router.delete("/:id", isAuthenticated, deleteTodo);
 export default router;
