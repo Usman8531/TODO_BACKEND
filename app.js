@@ -12,7 +12,7 @@ export const app = express();
 //using middleware
 app.use(express.json());
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: process.env.FRONTEND_URL,
   credentials: true,
 }));
 app.use(cookieParser());
