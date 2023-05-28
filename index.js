@@ -1,19 +1,11 @@
 import { app } from "./app.js";
 import { connectDB } from "./data/dataBase.js";
-import cors from "cors";
-connectDB();
 
-const corsOptions = {
-  origin: "http://localhost:3000", // Set the environment variable for the allowed origin
-  credentials: true,
-};
-app.use(cors(corsOptions));
+connectDB();
 
 app.get("/", (req, res) => {
   res.send("It's Working fine!");
 });
-//
-
 app.listen(process.env.PORT, () => {
   console.log(
     `server is running on PORT ==> ${process.env.PORT} in ${process.env.NODE_ENV} Mode`

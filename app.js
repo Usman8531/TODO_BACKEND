@@ -9,8 +9,19 @@ import cookieParser from "cookie-parser";
 import { errorMiddleWare } from "./middlewares/error.js";
 export const app = express();
 
+// dotenv
+config({
+  path: "./data/config.env",
+});
 //using middleware
 app.use(express.json());
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL,
+    credentials: true,
+  })
+);
+console.log(process.env.FRONTEND_URL);
 
 app.use(cookieParser());
 
@@ -18,11 +29,6 @@ app.use(cookieParser());
 app.use("/api/v1/users", userRouter);
 
 app.use("/api/v1/todo", todoRoutes);
-
-// dotenv
-config({
-  path: "./data/config.env",
-});
 
 // using error middleWare
 app.use(errorMiddleWare);
