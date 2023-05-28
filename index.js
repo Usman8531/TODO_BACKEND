@@ -4,7 +4,7 @@ import cors from "cors";
 connectDB();
 
 const corsOptions = {
-  origin: process.env.FRONTEND_URL, // Set the environment variable for the allowed origin
+  origin: "http://localhost:3000", // Set the environment variable for the allowed origin
   credentials: true,
 };
 app.use(cors(corsOptions));
