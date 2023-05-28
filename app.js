@@ -11,12 +11,7 @@ export const app = express();
 
 //using middleware
 app.use(express.json());
-const corsOptions = {
-  origin: process.env.FRONTEND_URL, // Set the environment variable for the allowed origin
-  credentials: true,
-};
 
-app.use(cors(corsOptions));
 app.use(cookieParser());
 
 // using routes
