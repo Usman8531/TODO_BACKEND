@@ -2,15 +2,15 @@
   "name": "server",
   "version": "1.0.0",
   "description": "todo app server",
-  "main": "server.js",
+  "main": "index.js",
   "type": "module",
   "engines": {
     "node": ">=14.20.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "set NODE_ENV=Production && node server.js",
-    "dev": "set NODE_ENV=Development && nodemon server.js"
+    "start": "set NODE_ENV=Production && node index.js",
+    "dev": "set NODE_ENV=Development && nodemon index.js"
   },
   "author": "",
   "license": "ISC",
